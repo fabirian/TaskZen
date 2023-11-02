@@ -30,11 +30,11 @@ import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController? = null) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var onLoginClick: () -> Unit
-    var onSignUpClick: () -> Unit
+    var onLoginClick: () -> Unit = {}
+    var onSignUpClick: () -> Unit = {}
 
     Column(
         modifier = Modifier
@@ -147,8 +147,5 @@ fun LoginScreen(navController: NavController) {
 @Composable
 @Preview
 fun LoginScreenPreview() {
-    LoginScreen(
-        onLoginClick = { /* Handle sign-in button click */ },
-        onSignUpClick = { /* Handle sign-up hyperlink click */ }
-    )
+    LoginScreen()
 }

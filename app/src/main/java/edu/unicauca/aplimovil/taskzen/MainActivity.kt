@@ -1,23 +1,25 @@
 package edu.unicauca.aplimovil.taskzen
 
 import android.os.Bundle
+import android.view.Surface
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import edu.unicauca.aplimovil.taskzen.login.LoginScreenPreview
-
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import edu.unicauca.aplimovil.taskzen.ui.Configuration.ConfiguracionScreen
+import edu.unicauca.aplimovil.taskzen.ui.Login_Register.LoginScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-           /* TaskZenTheme {
+
+            TaskZenTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -25,12 +27,16 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Greeting("Android")
                 }
-            }*/
+            }
+
+            MyApp()
+
         }
     }
 }
 
 @Composable
+
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
         text = "Hello $name!",
@@ -43,3 +49,20 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     LoginScreenPreview()
 }
+
+fun MyApp() {
+    val navController = rememberNavController()
+    MaterialTheme {
+        Surface {
+            NavHost(navController, startDestination = "configuracion") {
+                composable("configuracion") {
+                    ConfiguracionScreen(navController)
+                }
+                composable("login") {
+                    LoginScreen(navController)
+                }
+            }
+        }
+    }
+}
+

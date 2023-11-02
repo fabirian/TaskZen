@@ -36,6 +36,7 @@ fun LoginScreen(navController: NavController? = null) {
     var onLoginClick: () -> Unit = {}
     var onSignUpClick: () -> Unit = {}
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()

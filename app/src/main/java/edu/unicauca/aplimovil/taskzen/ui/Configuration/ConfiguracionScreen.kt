@@ -62,25 +62,40 @@ fun ConfiguracionScreen(navController: NavController? = null) {
                 Text("Login")
             }
 
-
-            IconButton(onClick = { /* Acción para ayuda */ },
+            IconButton(onClick = {
+                if(navController != null){
+                    navController.navigate("help")
+                }},
                 modifier = Modifier
-                    .fillMaxWidth()) {
+                    .fillMaxWidth()
+            ) {
                 Text("Help")
             }
-            IconButton(onClick = { /* Acción para información sobre la aplicación */ },
+            IconButton(onClick = {
+                if(navController != null){
+                    navController.navigate("about")
+                }},
                 modifier = Modifier
-                    .fillMaxWidth()) {
+                    .fillMaxWidth()
+            ) {
                 Text("About Application")
             }
-            IconButton(onClick = { /* Acción para enviar comentarios */ },
+            IconButton(onClick = {
+                if(navController != null){
+                    navController.navigate("feedback")
+                }},
                 modifier = Modifier
-                    .fillMaxWidth()) {
+                    .fillMaxWidth()
+            ) {
                 Text("Send Feedback")
             }
-            IconButton(onClick = { /* Acción para soporte */ },
+            IconButton(onClick = {
+                if(navController != null){
+                    navController.navigate("support")
+                }},
                 modifier = Modifier
-                    .fillMaxWidth()) {
+                    .fillMaxWidth()
+            ) {
                 Text("Support")
             }
         }

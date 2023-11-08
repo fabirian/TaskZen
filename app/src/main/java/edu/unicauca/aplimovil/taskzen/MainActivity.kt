@@ -38,6 +38,18 @@ fun MyApp() {
                 composable("login") {
                     LoginScreen(navController)
                 }
+                composable("help") {
+                    LoginScreen(navController)
+                }
+                composable("about") {
+                    LoginScreen(navController)
+                }
+                composable("support") {
+                    LoginScreen(navController)
+                }
+                composable("feedback") {
+                    LoginScreen(navController)
+                }
             }
         }
     }

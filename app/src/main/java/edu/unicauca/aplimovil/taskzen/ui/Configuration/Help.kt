@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import edu.unicauca.aplimovil.taskzen.ui.Utils.FaqSection
 import edu.unicauca.aplimovil.taskzen.ui.Utils.TitleSection
 
 @Composable
@@ -32,11 +33,14 @@ fun Help(navController: NavController? = null) {
         ) {
             IconButton(
                 onClick = {
-                    if(navController != null){
+                    if (navController != null) {
                         navController.navigate("pantallaPrincipal")
-                    }}){
-                Icon(imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = null)
+                    }
+                }) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = null
+                )
             }
             Text("Help")
         }
@@ -65,25 +69,6 @@ fun Help(navController: NavController? = null) {
     }
 }
 
-@Composable
-fun FaqSection(title: String, content: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            title,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            content,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-    }
-}
 
 @Composable
 @Preview

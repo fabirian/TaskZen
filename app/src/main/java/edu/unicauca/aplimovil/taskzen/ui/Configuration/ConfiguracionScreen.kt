@@ -1,39 +1,109 @@
 package edu.unicauca.aplimovil.taskzen.ui.Configuration
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.mlkit.vision.common.internal.ImageConvertUtils
 
 
 @Composable
-fun ConfiguracionScreen(navController: NavController) {
+fun ConfiguracionScreen(navController: NavController? = null) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(MaterialTheme.colorScheme.surfaceVariant)
     ) {
-        Text("Pantalla de Configuración")
-        Button(onClick = { navController.navigate("login") }) {
-            Text("Iniciar sesión")
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .background(MaterialTheme.colorScheme.primary),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            IconButton(
+                onClick = {
+                    if(navController != null){
+                        navController.navigate("pantallaPrincipal")
+                    }}){
+                Icon(imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = null)
+            }
+            Text("Settings")
         }
-        Button(onClick = { /* Acción para ayuda */ }) {
-            Text("Ayuda")
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.onPrimary)
+
+        ){
+            IconButton(onClick = {
+                if(navController != null){
+                    navController.navigate("login")
+                }},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    ) {
+                Text("Login")
+            }
+
+
+            IconButton(onClick = { /* Acción para ayuda */ },
+                modifier = Modifier
+                    .fillMaxWidth()) {
+                Text("Help")
+            }
+            IconButton(onClick = { /* Acción para información sobre la aplicación */ },
+                modifier = Modifier
+                    .fillMaxWidth()) {
+                Text("About Application")
+            }
+            IconButton(onClick = { /* Acción para enviar comentarios */ },
+                modifier = Modifier
+                    .fillMaxWidth()) {
+                Text("Send Feedback")
+            }
+            IconButton(onClick = { /* Acción para soporte */ },
+                modifier = Modifier
+                    .fillMaxWidth()) {
+                Text("Support")
+            }
         }
-        Button(onClick = { /* Acción para información sobre la aplicación */ }) {
-            Text("Acerca de la aplicación")
+        Row(
+            modifier = Modifier
+                .fillMaxHeight(),
+            verticalAlignment = Alignment.Bottom
+
+        ){
+            IconButton(onClick = { /* Acción para soporte */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.dp)
+                    .background(MaterialTheme.colorScheme.outline)) {
+                Text("Sign Out", color = MaterialTheme.colorScheme.surface)
+            }
         }
-        Button(onClick = { /* Acción para enviar comentarios */ }) {
-            Text("Enviar comentarios")
-        }
-        Button(onClick = { /* Acción para soporte */ }) {
-            Text("Soporte")
-        }
+
     }
+}
+
+@Composable
+@Preview
+fun Configuracion(){
+    ConfiguracionScreen()
 }

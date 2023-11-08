@@ -30,12 +30,12 @@ import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
 
 @Composable
-fun LoginScreen(navController: NavController? = null) {
+fun RegisterScreen(navController: NavController? = null) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var onLoginClick: () -> Unit = {}
-    var onSignUpClick: () -> Unit = {}
-
+    var repeatpassword by remember { mutableStateOf("") }
+    var onLoginClick: () -> Unit ={}
+    var onSignUpClick: () -> Unit ={}
 
     Column(
         modifier = Modifier
@@ -55,7 +55,7 @@ fun LoginScreen(navController: NavController? = null) {
 
         // "Sign in to your account" text
         Text(
-            text = "Sign in to your account",
+            text = "Creawte an account",
             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
         )
 
@@ -110,7 +110,30 @@ fun LoginScreen(navController: NavController? = null) {
                 )
             )
         }
-
+        //Repeat Password
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.background)
+                .border(1.dp, MaterialTheme.colorScheme.secondary)
+        ) {
+            BasicTextField(
+                value = repeatpassword,
+                onValueChange = { repeatpassword = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Password
+                ),
+                textStyle = MaterialTheme.typography.bodySmall.copy(color = Color.White),
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardActions = KeyboardActions(
+                    onDone = { /* Handle keyboard done action if needed */ }
+                )
+            )
+        }
 
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -147,6 +170,8 @@ fun LoginScreen(navController: NavController? = null) {
 
 @Composable
 @Preview
-fun LoginScreenPreview() {
-    LoginScreen()
+fun RegisterScreenPreview() {
+    RegisterScreen(
+
+    )
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,10 +29,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
 
 @Composable
-fun CreateTaskScreen() {
+fun ListTaskScreen(navController: NavController? = null) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,7 +60,8 @@ fun CreateTaskScreen() {
                     contentDescription = null
                 )
                 IconButton(
-                    onClick = { /*TODO*/ }) {
+                    onClick = { if (navController != null) {
+                        navController.navigate("configuracion")} }) {
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = null,
@@ -101,7 +102,10 @@ fun CreateTaskScreen() {
         }
 
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { if (navController != null){
+                navController.navigate("createEditTask")
+            }
+                             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(120.dp)
@@ -151,6 +155,6 @@ val tareasPendientes = mutableListOf(
 
 @Composable
 @Preview
-fun CreateTaskScreenPreview() {
-    CreateTaskScreen()
+fun ListTaskScreenPreview() {
+    ListTaskScreen()
 }

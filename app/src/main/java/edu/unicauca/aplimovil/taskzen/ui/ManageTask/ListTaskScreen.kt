@@ -60,8 +60,11 @@ fun ListTaskScreen(navController: NavController? = null) {
                     contentDescription = null
                 )
                 IconButton(
-                    onClick = { if (navController != null) {
-                        navController.navigate("configuracion")} }) {
+                    onClick = {
+                        if(navController != null){
+                            navController.navigate("configuracion")
+                        }
+                    }) {
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = null,

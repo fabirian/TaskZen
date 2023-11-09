@@ -14,6 +14,7 @@ import edu.unicauca.aplimovil.taskzen.ui.Configuration.ConfiguracionScreen
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.LoginScreen
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.ListTaskScreen
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,18 @@ fun MyApp() {
                     ConfiguracionScreen(navController)
                 }
                 composable("login") {
+                    LoginScreen(navController)
+                }
+                composable("help") {
+                    LoginScreen(navController)
+                }
+                composable("about") {
+                    LoginScreen(navController)
+                }
+                composable("support") {
+                    LoginScreen(navController)
+                }
+                composable("feedback") {
                     LoginScreen(navController)
                 }
             }

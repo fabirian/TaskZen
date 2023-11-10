@@ -3,6 +3,7 @@ package edu.unicauca.aplimovil.taskzen.ui.ManageTask
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,11 +33,14 @@ import androidx.navigation.NavController
 import java.util.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.maxkeppeker.sheets.core.models.base.SelectionButton
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockSelection
@@ -45,7 +49,16 @@ import com.maxkeppeler.sheets.clock.models.ClockSelection
 @Composable
 fun CreateTask(navController: NavController? = null){
     var titulo by remember { mutableStateOf("") }
-    var horaSeleccionada by remember { mutableStateOf("") }
+    var horaSeleccionada by remember { mutableStateOf("00:00") }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOption by remember { mutableStateOf("Selecciona una opción") }
+    var isPlaceholderVisible by remember { mutableStateOf(true) }
+    val clockState = rememberSheetState()
+    ClockDialog(state = clockState, selection = ClockSelection.HoursMinutes{
+            horas, minutos ->
+        horaSeleccionada = "$horas:$minutos"
+    })
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -115,43 +128,112 @@ fun CreateTask(navController: NavController? = null){
                     .fillMaxWidth()
                     .padding(16.dp, 0.dp)
                     .height(100.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ){
-                Column {
+                Column (horizontalAlignment = Alignment.CenterHorizontally){
                     Text(
-                        text = "Hora\ninicio",
+                        text = "Hora\nInicio:",
+                        textAlign = TextAlign.Center,
                         style = TextStyle(fontSize = 20.sp),
                         modifier = Modifier
                             .border(1.dp, Color.Black)
                             .padding(10.dp, 0.dp))
-
-
-                    val clockState = rememberSheetState()
-                    ClockDialog(state = clockState, selection = ClockSelection.HoursMinutes{
-                            horas, minutos ->
-                        horaSeleccionada = "$horas:$minutos"
-                    })
                     IconButton(
                         onClick = { clockState.show() },
                         modifier = Modifier
                             .height(60.dp)
                             .width(80.dp)) {
                         Text(
-                            text = "00:00",
-                            style = TextStyle(fontSize = 20.sp))
+                            text = horaSeleccionada,
+                            style = TextStyle(fontSize = 30.sp))
                     }
 
                 }
-                Column {
+
+                Spacer(modifier = Modifier.width(50.dp))
+
+                Column (horizontalAlignment = Alignment.CenterHorizontally){
                     Text(
-                        text = "Hora\nfinalizacion",
+                        text = "Hora\nFinalización:",
+                        textAlign = TextAlign.Center,
                         style = TextStyle(
                             fontSize = 20.sp),
                         modifier = Modifier
                             .border(1.dp, Color.Black)
                             .padding(10.dp, 0.dp))
-                    Text(text = "00:00")
+                    IconButton(
+                        onClick = { clockState.show() },
+                        modifier = Modifier
+                            .height(60.dp)
+                            .width(80.dp)) {
+                        Text(
+                            text = horaSeleccionada,
+                            style = TextStyle(fontSize = 30.sp))
+                    }
                 }
+            }
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 20.dp)
+                    .height(100.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(
+                    text = "¿Cada cuanto\nrealizara\npausas activas?",
+                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontSize = 20.sp),
+                    modifier = Modifier
+                        .border(1.dp, Color.Black)
+                        .padding(10.dp, 0.dp))
+
+                Spacer(modifier = Modifier.width(50.dp))
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Option 1") },
+                        onClick = {
+                            selectedOption = "Option 1"
+                            expanded = false
+                            isPlaceholderVisible = false})
+                    DropdownMenuItem(
+                        text = { Text("Option 2") },
+                        onClick = {
+                            selectedOption = "Option 2"
+                            expanded = false
+                            isPlaceholderVisible = false})
+                    DropdownMenuItem(
+                        text = { Text("Option 3") },
+                        onClick = {
+                            selectedOption = "Option 3"
+                            expanded = false
+                            isPlaceholderVisible = false})
+                }
+                Box(
+                    modifier = Modifier
+                        .clickable { expanded = true }
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        if (isPlaceholderVisible) {
+                            Text("Seleccionar", color = Color.Gray)
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowDown,
+                                contentDescription = null
+                            )
+                        } else {
+                            Text(selectedOption)
+                        }
+                    }
+                }
+
             }
         }
         Row(

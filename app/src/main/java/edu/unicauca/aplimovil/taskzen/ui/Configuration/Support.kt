@@ -24,12 +24,7 @@ import edu.unicauca.aplimovil.taskzen.ui.Utils.TitleSection
 
 @Composable
 fun Support(navController: NavController? = null){
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-    ){
-        Row(
+     Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
@@ -47,7 +42,11 @@ fun Support(navController: NavController? = null){
             }
             Text("Support")
         }
-
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+    ){
         LazyColumn {
             item {
                 TitleSection("Soporte Técnico")

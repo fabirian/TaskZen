@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
 
@@ -41,6 +42,10 @@ fun ListTaskScreen(navController: NavController? = null) {
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
+        val taskViewModel = TaskViewModel()
+        taskViewModel.addTarea(Tarea(1,"00:00", "01:00", "Tarea 1", "10", "00:00"))
+        taskViewModel.addTarea(Tarea(2, "01:00", "02:00", "Tarea 2", "5", "01:00"))
+        taskViewModel.addTarea(Tarea(3, "02:00", "03:00", "Tarea 3", "5", "02:00"))
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
@@ -86,7 +91,7 @@ fun ListTaskScreen(navController: NavController? = null) {
                 ) {
                     Column {
                         Text(text = "Tarea actual")
-                        Text(text = tareasPendientes[0].nombre)
+                        Text(text = taskViewModel.getTareas()[0].nombre)
                     }
                     Column {
                         Text(text = "Tiempo transcurrido")
@@ -98,7 +103,7 @@ fun ListTaskScreen(navController: NavController? = null) {
             Text(text = "Tareas pendientes", modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
 
             LazyColumn {
-                items(tareasPendientes) { item ->
+                items(taskViewModel.getTareas()) { item ->
                     PendingTask(item.horaInicio, item.horaFin, item.nombre)
                 }
             }
@@ -146,15 +151,6 @@ fun PendingTask(horaInicio: String, horaFin: String, nameTask: String){
 
     Spacer(modifier = Modifier.height(8.dp))
 }
-
-data class Tarea(val horaInicio: String, val horaFin: String, val nombre: String)
-
-val tareasPendientes = mutableListOf(
-    Tarea("00:00", "01:00", "Tarea 1"),
-    Tarea("01:00", "02:00", "Tarea 2"),
-    Tarea("02:00", "03:00", "Tarea 3"),
-    Tarea("03:00", "04:00", "Tarea 4")
-)
 
 @Composable
 @Preview

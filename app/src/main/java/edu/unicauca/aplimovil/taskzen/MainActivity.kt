@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.ConfiguracionScreen
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.LoginScreen
+import edu.unicauca.aplimovil.taskzen.ui.ManageTask.CreateTask
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.ListTaskScreen
 
 
@@ -32,6 +33,9 @@ fun MyApp() {
             NavHost(navController, startDestination = "pantallaPrincipal") {
                 composable("pantallaPrincipal") {
                     ListTaskScreen(navController)
+                }
+                composable("CreateTask"){
+                    CreateTask(navController)
                 }
                 composable("configuracion") {
                     ConfiguracionScreen(navController)
@@ -54,10 +58,4 @@ fun MyApp() {
             }
         }
     }
-}
-
-@Composable
-@Preview
-fun MyAppPreview(){
-    MyApp()
 }

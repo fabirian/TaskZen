@@ -106,7 +106,7 @@ fun ListTaskScreen(navController: NavController? = null) {
 
         IconButton(
             onClick = { if (navController != null){
-                navController.navigate("createEditTask")
+                navController.navigate("CreateTask")
             }
                              },
             modifier = Modifier

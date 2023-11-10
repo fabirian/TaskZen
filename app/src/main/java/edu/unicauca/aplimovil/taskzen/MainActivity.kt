@@ -15,7 +15,11 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import edu.unicauca.aplimovil.taskzen.ui.Configuration.About
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.ConfiguracionScreen
+import edu.unicauca.aplimovil.taskzen.ui.Configuration.Feedback
+import edu.unicauca.aplimovil.taskzen.ui.Configuration.Help
+import edu.unicauca.aplimovil.taskzen.ui.Configuration.Support
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.LoginScreen
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.CreateTask
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.ListTaskScreen
@@ -54,16 +58,16 @@ fun MyApp() {
                     LoginScreen(navController)
                 }
                 composable("help") {
-                    LoginScreen(navController)
+                    Help(navController)
                 }
                 composable("about") {
-                    LoginScreen(navController)
+                    About(navController)
                 }
                 composable("support") {
-                    LoginScreen(navController)
+                    Support(navController)
                 }
                 composable("feedback") {
-                    LoginScreen(navController)
+                    Feedback(navController)
                 }
             }
         }

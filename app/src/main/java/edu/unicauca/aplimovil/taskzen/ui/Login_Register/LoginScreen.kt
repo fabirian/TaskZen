@@ -46,7 +46,7 @@ fun LoginScreen(navController: NavController? = null) {
             modifier=Modifier
                 .padding(vertical=20.dp)
                 .fillMaxWidth(),
-            
+
             text = "Sign in",
 
             style = MaterialTheme.typography.titleLarge  .copy(fontWeight = FontWeight.Bold)

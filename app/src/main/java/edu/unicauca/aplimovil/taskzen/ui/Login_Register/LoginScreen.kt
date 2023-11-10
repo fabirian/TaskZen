@@ -40,80 +40,93 @@ fun LoginScreen(navController: NavController? = null) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center
+            .padding(16.dp)
     ) {
-        // Logo (You can replace this with your logo)
+        Text(
+            modifier=Modifier
+                .padding(vertical=20.dp)
+                .fillMaxWidth(),
+            
+            text = "Sign in",
+
+            style = MaterialTheme.typography.titleLarge  .copy(fontWeight = FontWeight.Bold)
+        )
         Image(
             painter = painterResource(id = R.drawable.icono_logo_nombre),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(vertical=10.dp)
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // "Sign in to your account" text
         Text(
+            modifier=Modifier
+                .padding(vertical=20.dp),
             text = "Sign in to your account",
-            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+            style = MaterialTheme.typography.titleLarge  .copy(fontWeight = FontWeight.Bold)
         )
+        val cornerRadius = 10.dp
+        val ModifierTextField = Modifier
+            .fillMaxWidth()
+            .height(55.dp)
 
-        Spacer(modifier = Modifier.height(16.dp))
+            .clip(RoundedCornerShape(cornerRadius))
+            .background(MaterialTheme.colorScheme.background)
+            .border(1.dp, MaterialTheme.colorScheme.outline,
+                shape = RoundedCornerShape(cornerRadius)
+            )
 
-        // Email text field
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.background)
+        BasicTextField(
+            value = email,
+            onValueChange = { email = it },
+            modifier = ModifierTextField,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Email
+            ),
+            textStyle = MaterialTheme.typography.bodySmall.copy(color = Color.White),
+            keyboardActions = KeyboardActions(
+                onDone = { /* Handle keyboard done action if needed */ }
+            )
         ) {
-            BasicTextField(
-                value = email,
-                onValueChange = { email = it },
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Email
-                ),
-                textStyle = MaterialTheme.typography.bodySmall.copy(color = Color.White),
-                keyboardActions = KeyboardActions(
-                    onDone = { /* Handle keyboard done action if needed */ }
-                )
-            )
+                    .padding(horizontal=10.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                if (email.isEmpty()) {
+                    Text(text = "Email*", color = MaterialTheme.colorScheme.outline)
+                }
+            }
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Password text field
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.background)
-                .border(1.dp, MaterialTheme.colorScheme.secondary)
+        Spacer(Modifier.height(10.dp))
+        BasicTextField(
+            value = password,
+            onValueChange = { password = it },
+            modifier = ModifierTextField,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Password
+            ),
+            textStyle = MaterialTheme.typography.bodySmall.copy(color = Color.White),
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardActions = KeyboardActions(
+                onDone = { /* Handle keyboard done action if needed */ }
+            )
         ) {
-            BasicTextField(
-                value = password,
-                onValueChange = { password = it },
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Password
-                ),
-                textStyle = MaterialTheme.typography.bodySmall.copy(color = Color.White),
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardActions = KeyboardActions(
-                    onDone = { /* Handle keyboard done action if needed */ }
-                )
-            )
+                    .padding(horizontal=10.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                if (password.isEmpty()) {
+                    Text(text = "Password*", color = MaterialTheme.colorScheme.outline)
+                }
+            }
         }
 
 
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(25.dp))
 
         // Sign in button
         Button(
@@ -121,7 +134,7 @@ fun LoginScreen(navController: NavController? = null) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(cornerRadius))
                 .background(MaterialTheme.colorScheme.primary)
         ) {
             Text(
@@ -130,7 +143,7 @@ fun LoginScreen(navController: NavController? = null) {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(25.dp))
 
         // "Don't have an account yet?" text
         Row() {

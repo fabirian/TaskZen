@@ -30,6 +30,23 @@ import androidx.navigation.NavController
 @Composable
 fun Feedback(navController: NavController? = null) {
     var feedbackText by remember { mutableStateOf("") }
+    Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .background(MaterialTheme.colorScheme.primary),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = {
+                        if (navController != null) {
+                            navController.navigate("configuracion")
+                        }
+                    }) {
+                    Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription = null)
+                }
+                Text("Feedback")
+            }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -40,23 +57,7 @@ fun Feedback(navController: NavController? = null) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .background(MaterialTheme.colorScheme.primary),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = {
-                        if (navController != null) {
-                            navController.navigate("pantallaPrincipal")
-                        }
-                    }) {
-                    Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription = null)
-                }
-                Text("Feedback")
-            }
+            
 
             Spacer(modifier = Modifier.height(16.dp))
 

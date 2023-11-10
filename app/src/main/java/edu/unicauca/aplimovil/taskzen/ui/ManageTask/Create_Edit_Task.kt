@@ -39,8 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.maxkeppeker.sheets.core.models.base.SelectionButton
-import com.maxkeppeker.sheets.core.models.base.SheetState
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockSelection
@@ -318,7 +316,7 @@ fun CreateTask(navController: NavController? = null){
 
             Button(onClick = {
                 val taskViewModel = TaskViewModel()
-                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id,horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,horaInicio,horaFin,titulo,duracionPausas,selectedOption))
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                 }

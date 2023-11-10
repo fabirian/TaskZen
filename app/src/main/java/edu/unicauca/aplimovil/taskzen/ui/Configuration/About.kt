@@ -33,7 +33,7 @@ fun About(navController: NavController? = null) {
                 IconButton(
                     onClick = {
                         if (navController != null) {
-                            navController.navigate("pantallaPrincipal")
+                            navController.navigate("configuracion")
                         }
                     }
                 ) {

@@ -30,17 +30,7 @@ import androidx.navigation.NavController
 @Composable
 fun Feedback(navController: NavController? = null) {
     var feedbackText by remember { mutableStateOf("") }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Row(
+    Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
@@ -57,6 +47,17 @@ fun Feedback(navController: NavController? = null) {
                 }
                 Text("Feedback")
             }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            
 
             Spacer(modifier = Modifier.height(16.dp))
 

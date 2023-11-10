@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,7 +33,7 @@ import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
 
 @Composable
-fun CreateTaskScreen(navController: NavController? = null) {
+fun ListTaskScreen(navController: NavController? = null) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -106,7 +105,10 @@ fun CreateTaskScreen(navController: NavController? = null) {
         }
 
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { if (navController != null){
+                navController.navigate("CreateTask")
+            }
+                             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(120.dp)
@@ -156,6 +158,6 @@ val tareasPendientes = mutableListOf(
 
 @Composable
 @Preview
-fun CreateTaskScreenPreview() {
-    CreateTaskScreen()
+fun ListTaskScreenPreview() {
+    ListTaskScreen()
 }

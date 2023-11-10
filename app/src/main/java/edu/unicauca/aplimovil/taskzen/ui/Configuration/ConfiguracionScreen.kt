@@ -2,6 +2,8 @@ package edu.unicauca.aplimovil.taskzen.ui.Configuration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -12,12 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
+import edu.unicauca.aplimovil.taskzen.UserViewModel
 
-class UserViewModel : ViewModel() {
-    var userEmail by mutableStateOf<String?>(null)
-}
 
 @Composable
 fun ConfiguracionScreen(navController: NavController? = null, userViewModel: UserViewModel) {
@@ -137,10 +137,6 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
     }
 }
 
-@Composable
-@Preview
-fun Configuracion() {
-    val userViewModel = remember { UserViewModel() }
-    ConfiguracionScreen(userViewModel = userViewModel)
-}
+
+
 

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,13 +13,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,33 +34,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import java.util.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockSelection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTask(navController: NavController? = null){
-    var titulo by remember { mutableStateOf("") }
-    var duracionPausas by remember { mutableStateOf("") }
+fun EditTask(navController: NavController? = null, taskViewModel: TaskViewModel,task: Tarea){
+    var titulo by remember { mutableStateOf(task.nombre) }
+    var duracionPausas by remember { mutableStateOf(task.duracionPausas) }
     var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf("Selecciona una opción") }
+    var selectedOption by remember { mutableStateOf("") }
     var isPlaceholderVisible by remember { mutableStateOf(true) }
-    var horaInicio by remember { mutableStateOf("00:00") }
-    var horaFin by remember { mutableStateOf("00:00") }
+    var horaInicio by remember { mutableStateOf(task.horaInicio) }
+    var horaFin by remember { mutableStateOf(task.horaFin) }
     val clockStateInicio = rememberSheetState()
     val clockStateFin = rememberSheetState()
     ClockDialog(state = clockStateInicio, selection = ClockSelection.HoursMinutes{
@@ -102,7 +103,7 @@ fun CreateTask(navController: NavController? = null){
                         modifier = Modifier
                             .fillMaxWidth()
                     ){
-                        Text(text = "Agregar Tarea")
+                        Text(text = "Editar Tarea")
                     }
                 }
             }
@@ -150,7 +151,8 @@ fun CreateTask(navController: NavController? = null){
                             .width(80.dp)) {
                         Text(
                             text = horaInicio,
-                            style = TextStyle(fontSize = 30.sp))
+                            style = TextStyle(fontSize = 30.sp)
+                        )
                     }
 
                 }
@@ -173,7 +175,8 @@ fun CreateTask(navController: NavController? = null){
                             .width(80.dp)) {
                         Text(
                             text = horaFin,
-                            style = TextStyle(fontSize = 30.sp))
+                            style = TextStyle(fontSize = 30.sp)
+                        )
                     }
                 }
             }
@@ -240,7 +243,8 @@ fun CreateTask(navController: NavController? = null){
                                     text = "Seleccionar",
                                     color = Color.Gray,
                                     textAlign = TextAlign.Center,
-                                    style = TextStyle(fontSize = 16.sp))
+                                    style = TextStyle(fontSize = 16.sp)
+                                )
                                 Icon(
                                     imageVector = Icons.Default.KeyboardArrowDown,
                                     contentDescription = null,
@@ -250,7 +254,8 @@ fun CreateTask(navController: NavController? = null){
                                 Text(
                                     text = selectedOption,
                                     textAlign = TextAlign.Center,
-                                    style = TextStyle(fontSize = 16.sp))
+                                    style = TextStyle(fontSize = 16.sp)
+                                )
                                 Icon(
                                     imageVector = Icons.Default.KeyboardArrowDown,
                                     contentDescription = null
@@ -315,8 +320,7 @@ fun CreateTask(navController: NavController? = null){
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                val taskViewModel = TaskViewModel()
-                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                taskViewModel.updateTarea(Tarea(task.id,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                 }
@@ -325,15 +329,4 @@ fun CreateTask(navController: NavController? = null){
             }
         }
     }
-}
-
-@Composable
-fun EditTask(navController: NavController? = null){
-
-}
-
-@Composable
-@Preview
-fun CreateEditTaskPreview(){
-    CreateTask()
 }

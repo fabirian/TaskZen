@@ -37,7 +37,7 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
             IconButton(
                 onClick = {
                     if(navController != null){
-                        navController.navigate("configuracion")
+                        navController.navigate("pantallaPrincipal")
                     }
                 },
                 modifier = Modifier

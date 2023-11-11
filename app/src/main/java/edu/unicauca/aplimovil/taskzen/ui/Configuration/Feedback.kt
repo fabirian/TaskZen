@@ -29,64 +29,67 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Feedback(navController: NavController? = null) {
-    var feedbackText by remember { mutableStateOf("") }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .background(MaterialTheme.colorScheme.primary),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        IconButton(
-            onClick = {
-                if(navController != null){
-                    navController.navigate("configuracion")
-                }
-            },
-            modifier = Modifier
-                .height(50.dp)
-                .fillMaxWidth()
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = null,
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ){
-                    Text(text = "Feedback")
-                }
-            }
-        }
-    }
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceVariant)
-    ) {
+    ){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .background(MaterialTheme.colorScheme.primary),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(
+                onClick = {
+                    if(navController != null){
+                        navController.navigate("configuracion")
+                    }
+                },
+                modifier = Modifier
+                    .height(50.dp)
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
+                        Text(text = "Feedback")
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            
 
+            var feedbackText by remember { mutableStateOf("") }
             Spacer(modifier = Modifier.height(16.dp))
 
             // Campo de texto para el feedback
             TextField(
                 value = feedbackText,
                 onValueChange = { feedbackText = it },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(bottom = 16.dp, top = 50.dp),
                 label = { Text("Escribe tu feedback aquí") },
                 textStyle = MaterialTheme.typography.bodyMedium,
                 maxLines = 5
@@ -99,11 +102,13 @@ fun Feedback(navController: NavController? = null) {
                     // Lógica para procesar el feedback aquí
                 },
                 modifier = Modifier.fillMaxWidth()
+                    .padding(bottom = 16.dp)
             ) {
                 Text("Enviar Feedback")
             }
         }
     }
+
 }
 
 @Composable

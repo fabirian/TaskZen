@@ -18,7 +18,7 @@ import edu.unicauca.aplimovil.taskzen.ui.Utils.TitleSection
 
 @Composable
 fun Help(navController: NavController? = null) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceVariant)
@@ -33,7 +33,7 @@ fun Help(navController: NavController? = null) {
             IconButton(
                 onClick = {
                     if(navController != null){
-                        navController.navigate("pantallaPrincipal")
+                        navController.navigate("configuracion")
                     }
                 },
                 modifier = Modifier
@@ -61,6 +61,7 @@ fun Help(navController: NavController? = null) {
                 }
             }
         }
+
         LazyColumn {
             item {
                 TitleSection("Preguntas frecuentes")
@@ -85,7 +86,6 @@ fun Help(navController: NavController? = null) {
         }
     }
 }
-
 
 @Composable
 @Preview

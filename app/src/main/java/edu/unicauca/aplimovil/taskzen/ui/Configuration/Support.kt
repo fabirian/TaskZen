@@ -3,6 +3,7 @@ package edu.unicauca.aplimovil.taskzen.ui.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +27,7 @@ import edu.unicauca.aplimovil.taskzen.ui.Utils.TitleSection
 
 @Composable
 fun Support(navController: NavController? = null){
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceVariant)

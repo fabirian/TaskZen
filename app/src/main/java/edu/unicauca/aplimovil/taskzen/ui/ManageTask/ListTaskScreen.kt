@@ -43,9 +43,9 @@ fun ListTaskScreen(navController: NavController? = null) {
         contentAlignment = Alignment.Center
     ) {
         val taskViewModel = TaskViewModel()
-        taskViewModel.addTarea(Tarea(1,"00:00", "01:00", "Tarea 1", "10", "00:00"))
-        taskViewModel.addTarea(Tarea(2, "01:00", "02:00", "Tarea 2", "5", "01:00"))
-        taskViewModel.addTarea(Tarea(3, "02:00", "03:00", "Tarea 3", "5", "02:00"))
+        taskViewModel.addTarea(Tarea(1, "","00:00", "01:00", "Tarea 1", "10", "00:00"))
+        taskViewModel.addTarea(Tarea(2, "","01:00", "02:00", "Tarea 2", "5", "01:00"))
+        taskViewModel.addTarea(Tarea(3,"" ,"02:00", "03:00", "Tarea 3", "5", "02:00"))
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {

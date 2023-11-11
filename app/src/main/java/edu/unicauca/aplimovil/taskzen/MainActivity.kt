@@ -14,12 +14,14 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.compose.AppTheme
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.About
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.ConfiguracionScreen
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.Feedback
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.Help
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.Support
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.LoginScreen
+import edu.unicauca.aplimovil.taskzen.ui.Login_Register.RegisterScreen
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.CreateTask
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.ListTaskScreen
 
@@ -28,7 +30,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyApp()
+            AppTheme {
+                MyApp()
+            }
         }
     }
 }
@@ -47,11 +51,11 @@ fun MyApp() {
                 composable("pantallaPrincipal") {
                     ListTaskScreen(navController)
                 }
-                composable("CreateTask"){
+                composable("CreateTask") {
                     CreateTask(navController)
                 }
                 composable("configuracion") {
-                    ConfiguracionScreen(navController,userViewModel)
+                    ConfiguracionScreen(navController, userViewModel)
                 }
                 composable("login") {
                     LoginScreen(navController)
@@ -68,7 +72,11 @@ fun MyApp() {
                 composable("feedback") {
                     Feedback(navController)
                 }
+                composable("registro") {
+                    RegisterScreen(navController)
+                }
             }
+
         }
     }
 }

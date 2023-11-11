@@ -315,10 +315,10 @@ fun CreateTask(navController: NavController? = null){
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                val taskViewModel = TaskViewModel()
-                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,horaInicio,horaFin,titulo,duracionPausas,selectedOption))
-                if (navController != null){
-                    navController.navigate("pantallaPrincipal")
+                 if (navController != null){
+                     val taskViewModel = TaskViewModel()
+                     taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,"none",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                     navController.navigate("pantallaPrincipal")
                 }
             }){
                 Text(text = "Guardar")

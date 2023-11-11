@@ -1,6 +1,7 @@
 package edu.unicauca.aplimovil.taskzen.ui.Configuration
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -17,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.UserViewModel
-
 
 @Composable
 fun ConfiguracionScreen(navController: NavController? = null, userViewModel: UserViewModel) {
@@ -49,94 +49,69 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.onPrimary)
         ) {
-            IconButton(
-                onClick = {
-                    if (navController != null) {
-                        navController.navigate("login")
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text("Login")
+            // Botón de Login o Nombre de Usuario
+            if (DataManager.currentUser == null) {
+                Text(
+                    "Login",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            if (navController != null) {
+                                navController.navigate("login")
+                            }
+                        }
+                        .padding(16.dp)
+                )
+            } else {
+                Text(
+                    "Welcome, ${DataManager.currentUser?.name}!",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
             }
 
-            IconButton(
-                onClick = {
-                    if (navController != null) {
-                        navController.navigate("help")
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text("Help")
-            }
-            IconButton(
-                onClick = {
-                    if (navController != null) {
-                        navController.navigate("about")
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text("About Application")
-            }
-            IconButton(
-                onClick = {
-                    if (navController != null) {
-                        navController.navigate("feedback")
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text("Send Feedback")
-            }
-            IconButton(
-                onClick = {
-                    if (navController != null) {
-                        navController.navigate("support")
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text("Support")
-            }
+            // Otros botones
+            ButtonRow(navController, "help", "Help")
+            ButtonRow(navController, "about", "About Application")
+            ButtonRow(navController, "feedback", "Send Feedback")
+            ButtonRow(navController, "support", "Support")
 
-            // Muestra el nombre del usuario si está autenticado
-            if (userViewModel.userEmail != null) {
-                Text("Welcome, ${userViewModel.userEmail}!")
-            }
+            // Espaciador para separar los otros botones del botón "Sign Out"
+            Spacer(modifier = Modifier.weight(1f))
 
             // Botón de Sign Out
-            Row(
-                modifier = Modifier
-                    .fillMaxHeight(),
-                verticalAlignment = Alignment.Bottom
-            ) {
-                // Verifica si el usuario está autenticado antes de mostrar el botón de Sign Out
-                if (userViewModel.userEmail != null) {
-                    IconButton(
-                        onClick = {
-                            // Lógica para cerrar sesión (puedes limpiar el ViewModel aquí)
-                            userViewModel.userEmail = null
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(15.dp)
-                            .background(MaterialTheme.colorScheme.outline)
-                    ) {
-                        Text("Sign Out", color = MaterialTheme.colorScheme.surface)
-                    }
+            if (DataManager.currentUser != null) {
+                IconButton(
+                    onClick = {
+                        // Lógica para cerrar sesión (puedes limpiar el DataManager aquí)
+                        DataManager.logout()
+                        // Navegar a la pantalla principal después de cerrar sesión
+                        navController?.navigate("pantallaPrincipal")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp)
+                        .background(MaterialTheme.colorScheme.outline)
+                ) {
+                    Text("Sign Out", color = MaterialTheme.colorScheme.surface)
                 }
             }
         }
     }
 }
 
-
-
-
+@Composable
+fun ButtonRow(navController: NavController?, route: String, text: String) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                if (navController != null) {
+                    navController.navigate(route)
+                }
+            }
+            .padding(16.dp)
+    )
+}

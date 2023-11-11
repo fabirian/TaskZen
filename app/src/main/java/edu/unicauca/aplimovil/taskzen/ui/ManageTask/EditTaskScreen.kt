@@ -320,7 +320,7 @@ fun EditTask(navController: NavController? = null, taskViewModel: TaskViewModel,
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                taskViewModel.updateTarea(Tarea(task.id,horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                taskViewModel.updateTarea(Tarea(task.id,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                 }

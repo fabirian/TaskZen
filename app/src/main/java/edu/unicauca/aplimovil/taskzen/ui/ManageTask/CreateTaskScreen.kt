@@ -314,7 +314,7 @@ fun CreateTask(navController: NavController? = null, taskViewModel: TaskViewMode
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                }

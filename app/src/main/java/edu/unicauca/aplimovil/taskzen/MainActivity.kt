@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,7 +24,10 @@ import edu.unicauca.aplimovil.taskzen.ui.Configuration.Support
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.LoginScreen
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.RegisterScreen
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.CreateTask
+import edu.unicauca.aplimovil.taskzen.ui.ManageTask.EditTask
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.ListTaskScreen
+import edu.unicauca.aplimovil.taskzen.ui.ManageTask.Tarea
+import edu.unicauca.aplimovil.taskzen.ui.ManageTask.TaskViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -47,12 +51,30 @@ fun MyApp() {
     MaterialTheme {
         Surface {
             val userViewModel = remember { UserViewModel() }
+            val taskViewModel = TaskViewModel()
+            val task: Tarea = Tarea(0, "00:00", "00:00", "", "", "")
+            taskViewModel.addTarea(Tarea(1,"00:00", "01:00", "Tarea 1", "10", "00:00"))
+            taskViewModel.addTarea(Tarea(2, "01:00", "02:00", "Tarea 2", "5", "01:00"))
+            taskViewModel.addTarea(Tarea(3, "02:00", "03:00", "Tarea 3", "5", "02:00"))
             NavHost(navController, startDestination = "pantallaPrincipal") {
                 composable("pantallaPrincipal") {
-                    ListTaskScreen(navController)
+                    ListTaskScreen(navController, taskViewModel)
                 }
-                composable("CreateTask") {
-                    CreateTask(navController)
+                composable("CreateTask"){
+                    CreateTask(navController, taskViewModel)
+                }
+                composable("EditTask/{taskId}") { backStackEntry ->
+                    // Obtén el ID de la tarea de la URL
+                    val taskId = backStackEntry.arguments?.getInt("taskId")
+                    // Obtén la tarea correspondiente utilizando el ID
+                    val tarea = taskId?.let { taskViewModel.getTareaById(it) }
+
+                    // Llama a la pantalla EditTask y pasa la tarea
+                    if (tarea != null) {
+                        EditTask(navController, taskViewModel, tarea)
+                    }else{
+                        EditTask(navController, taskViewModel, task)
+                    }
                 }
                 composable("configuracion") {
                     ConfiguracionScreen(navController, userViewModel)

@@ -1,7 +1,10 @@
 package edu.unicauca.aplimovil.taskzen.ui.ManageTask
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +26,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,9 +41,34 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
+import kotlinx.coroutines.delay
+import java.time.Duration
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ListTaskScreen(navController: NavController? = null) {
+fun ListTaskScreen(navController: NavController? = null, taskViewModel: TaskViewModel) {
+    val horaActual = LocalTime.now()
+
+    val tareaActual = taskViewModel.getTareas().find { task ->
+        task.horaInicio == horaActual.format(DateTimeFormatter.ofPattern("HH:mm"))
+    }
+
+    var tiempoTrascurrido by remember { mutableStateOf(0L) }
+
+    LaunchedEffect(tareaActual) {
+        tareaActual?.let {
+            val startTime = LocalTime.parse(it.horaInicio)
+            val endTime = LocalTime.parse(it.horaFin)
+            val durationInSeconds = Duration.between(startTime, endTime).seconds
+
+            while (tiempoTrascurrido < durationInSeconds) {
+                delay(1000)
+                tiempoTrascurrido++
+            }
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -42,10 +76,7 @@ fun ListTaskScreen(navController: NavController? = null) {
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
-        val taskViewModel = TaskViewModel()
-        taskViewModel.addTarea(Tarea(1, "","00:00", "01:00", "Tarea 1", "10", "00:00"))
-        taskViewModel.addTarea(Tarea(2, "","01:00", "02:00", "Tarea 2", "5", "01:00"))
-        taskViewModel.addTarea(Tarea(3,"" ,"02:00", "03:00", "Tarea 3", "5", "02:00"))
+
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
@@ -91,11 +122,15 @@ fun ListTaskScreen(navController: NavController? = null) {
                 ) {
                     Column {
                         Text(text = "Tarea actual")
-                        Text(text = taskViewModel.getTareas()[0].nombre)
+                        if (tareaActual != null) {
+                            Text(text = tareaActual.nombre)
+                        } else {
+                            Text(text = "Ninguna tarea en curso")
+                        }
                     }
                     Column {
                         Text(text = "Tiempo transcurrido")
-                        Text(text = "00:00")
+                        Text(text = TiempoTranscurrido(tiempoTrascurrido))
                     }
                 }
             }
@@ -104,7 +139,7 @@ fun ListTaskScreen(navController: NavController? = null) {
 
             LazyColumn {
                 items(taskViewModel.getTareas()) { item ->
-                    PendingTask(item.horaInicio, item.horaFin, item.nombre)
+                    PendingTask(item.id ,item.horaInicio, item.horaFin, item.nombre, navController)
                 }
             }
         }
@@ -131,8 +166,13 @@ fun ListTaskScreen(navController: NavController? = null) {
 }
 
 @Composable
-fun PendingTask(horaInicio: String, horaFin: String, nameTask: String){
-    Box {
+fun PendingTask(id: Int,horaInicio: String, horaFin: String, nameTask: String, navController: NavController? = null){
+    Box (
+        modifier = Modifier
+            .clickable{
+                navController?.navigate("EditTask/${id}")
+            }
+    ){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -152,8 +192,9 @@ fun PendingTask(horaInicio: String, horaFin: String, nameTask: String){
     Spacer(modifier = Modifier.height(8.dp))
 }
 
-@Composable
-@Preview
-fun ListTaskScreenPreview() {
-    ListTaskScreen()
+fun TiempoTranscurrido(seconds: Long): String {
+    val horas = seconds / 3600
+    val minutos = (seconds % 3600) / 60
+    val segundos = seconds % 60
+    return String.format("%02d:%02d:%02d", horas, minutos, segundos)
 }

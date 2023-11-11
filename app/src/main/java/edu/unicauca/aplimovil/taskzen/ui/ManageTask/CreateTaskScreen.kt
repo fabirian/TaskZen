@@ -26,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import java.util.*
@@ -45,11 +44,11 @@ import com.maxkeppeler.sheets.clock.models.ClockSelection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTask(navController: NavController? = null){
+fun CreateTask(navController: NavController? = null, taskViewModel: TaskViewModel){
     var titulo by remember { mutableStateOf("") }
     var duracionPausas by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf("Selecciona una opción") }
+    var selectedOption by remember { mutableStateOf("") }
     var isPlaceholderVisible by remember { mutableStateOf(true) }
     var horaInicio by remember { mutableStateOf("00:00") }
     var horaFin by remember { mutableStateOf("00:00") }
@@ -315,11 +314,10 @@ fun CreateTask(navController: NavController? = null){
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                 if (navController != null){
-                     val taskViewModel = TaskViewModel()
-                     taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,"none",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
-                     navController.navigate("pantallaPrincipal")
-                }
+                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                if (navController != null){
+                    navController.navigate("pantallaPrincipal")
+               }
             }){
                 Text(text = "Guardar")
             }
@@ -330,10 +328,4 @@ fun CreateTask(navController: NavController? = null){
 @Composable
 fun EditTask(navController: NavController? = null){
 
-}
-
-@Composable
-@Preview
-fun CreateEditTaskPreview(){
-    CreateTask()
 }

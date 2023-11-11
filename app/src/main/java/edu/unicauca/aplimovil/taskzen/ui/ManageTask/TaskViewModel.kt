@@ -17,11 +17,17 @@ class TaskViewModel : ViewModel() {
         return tareas.find { it.id == id }
     }
 
-
     fun updateTarea(updatedTarea: Tarea) {
         val tareaIndex = tareas.indexOfFirst { it.id == updatedTarea.id }
         if (tareaIndex != -1) {
             tareas[tareaIndex] = updatedTarea
+        }
+    }
+
+    fun deleteTarea(id: Int) {
+        val tareaIndex = tareas.indexOfFirst { it.id == id }
+        if (tareaIndex != -1) {
+            tareas.removeAt(tareaIndex)
         }
     }
 }

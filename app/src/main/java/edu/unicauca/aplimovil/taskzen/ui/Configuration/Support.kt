@@ -1,11 +1,13 @@
 package edu.unicauca.aplimovil.taskzen.ui.Configuration
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -24,24 +26,44 @@ import edu.unicauca.aplimovil.taskzen.ui.Utils.TitleSection
 
 @Composable
 fun Support(navController: NavController? = null){
-     Row(
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .background(MaterialTheme.colorScheme.primary),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(
+            onClick = {
+                if(navController != null){
+                    navController.navigate("pantallaPrincipal")
+                }
+            },
             modifier = Modifier
-                .fillMaxWidth()
                 .height(50.dp)
-                .background(MaterialTheme.colorScheme.primary),
-            verticalAlignment = Alignment.CenterVertically
-
+                .fillMaxWidth()
         ) {
-            IconButton(
-                onClick = {
-                    if(navController != null){
-                        navController.navigate("pantallaPrincipal")
-                    }}){
-                Icon(imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = null)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = null,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ){
+                    Text(text = "Support")
+                }
             }
-            Text("Support")
         }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()

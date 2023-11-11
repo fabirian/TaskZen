@@ -36,13 +36,34 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
         ) {
             IconButton(
                 onClick = {
-                    if (navController != null) {
-                        navController.navigate("pantallaPrincipal")
+                    if(navController != null){
+                        navController.navigate("configuracion")
                     }
-                }) {
-                Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription = null)
+                },
+                modifier = Modifier
+                    .height(50.dp)
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
+                        Text(text = "Settings")
+                    }
+                }
             }
-            Text("Settings")
         }
         Column(
             modifier = Modifier
@@ -136,7 +157,6 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
         }
     }
 }
-
 
 
 

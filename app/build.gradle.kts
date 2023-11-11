@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "edu.unicauca.aplimovil.taskzen"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "edu.unicauca.aplimovil.taskzen"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -50,8 +50,6 @@ android {
 }
 
 dependencies {
-    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.2")
     implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -69,4 +67,12 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    //TimePicker
+    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.2")
+    //TaskViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-livedata:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-runtime:2.4.0")
 }

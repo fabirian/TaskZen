@@ -47,14 +47,21 @@ import com.maxkeppeler.sheets.clock.models.ClockSelection
 @Composable
 fun CreateTask(navController: NavController? = null){
     var titulo by remember { mutableStateOf("") }
-    var horaSeleccionada by remember { mutableStateOf("00:00") }
+    var duracionPausas by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf("Selecciona una opción") }
     var isPlaceholderVisible by remember { mutableStateOf(true) }
-    val clockState = rememberSheetState()
-    ClockDialog(state = clockState, selection = ClockSelection.HoursMinutes{
+    var horaInicio by remember { mutableStateOf("00:00") }
+    var horaFin by remember { mutableStateOf("00:00") }
+    val clockStateInicio = rememberSheetState()
+    val clockStateFin = rememberSheetState()
+    ClockDialog(state = clockStateInicio, selection = ClockSelection.HoursMinutes{
             horas, minutos ->
-        horaSeleccionada = "$horas:$minutos"
+        horaInicio = "$horas:$minutos"
+    })
+    ClockDialog(state = clockStateFin, selection = ClockSelection.HoursMinutes{
+            horas, minutos ->
+        horaFin = "$horas:$minutos"
     })
 
     Column(
@@ -137,12 +144,12 @@ fun CreateTask(navController: NavController? = null){
                             .border(1.dp, Color.Black)
                             .padding(10.dp, 0.dp))
                     IconButton(
-                        onClick = { clockState.show() },
+                        onClick = { clockStateInicio.show() },
                         modifier = Modifier
                             .height(60.dp)
                             .width(80.dp)) {
                         Text(
-                            text = horaSeleccionada,
+                            text = horaInicio,
                             style = TextStyle(fontSize = 30.sp))
                     }
 
@@ -160,12 +167,12 @@ fun CreateTask(navController: NavController? = null){
                             .border(1.dp, Color.Black)
                             .padding(10.dp, 0.dp))
                     IconButton(
-                        onClick = { clockState.show() },
+                        onClick = { clockStateFin.show() },
                         modifier = Modifier
                             .height(60.dp)
                             .width(80.dp)) {
                         Text(
-                            text = horaSeleccionada,
+                            text = horaFin,
                             style = TextStyle(fontSize = 30.sp))
                     }
                 }
@@ -175,7 +182,7 @@ fun CreateTask(navController: NavController? = null){
                     .fillMaxWidth()
                     .padding(16.dp, 20.dp)
                     .height(100.dp),
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Text(
@@ -189,49 +196,106 @@ fun CreateTask(navController: NavController? = null){
 
                 Spacer(modifier = Modifier.width(50.dp))
 
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Option 1") },
-                        onClick = {
-                            selectedOption = "Option 1"
-                            expanded = false
-                            isPlaceholderVisible = false})
-                    DropdownMenuItem(
-                        text = { Text("Option 2") },
-                        onClick = {
-                            selectedOption = "Option 2"
-                            expanded = false
-                            isPlaceholderVisible = false})
-                    DropdownMenuItem(
-                        text = { Text("Option 3") },
-                        onClick = {
-                            selectedOption = "Option 3"
-                            expanded = false
-                            isPlaceholderVisible = false})
-                }
-                Box(
-                    modifier = Modifier
-                        .clickable { expanded = true }
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                Column{
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
                     ) {
-                        if (isPlaceholderVisible) {
-                            Text("Seleccionar", color = Color.Gray)
-                            Icon(
-                                imageVector = Icons.Default.KeyboardArrowDown,
-                                contentDescription = null
-                            )
-                        } else {
-                            Text(selectedOption)
+                        DropdownMenuItem(
+                            text = { Text("30 minutos") },
+                            onClick = {
+                                selectedOption = "00:30"
+                                expanded = false
+                                isPlaceholderVisible = false})
+                        DropdownMenuItem(
+                            text = { Text("1 hora") },
+                            onClick = {
+                                selectedOption = "01:00"
+                                expanded = false
+                                isPlaceholderVisible = false})
+                        DropdownMenuItem(
+                            text = { Text("1 hora 30 minutos") },
+                            onClick = {
+                                selectedOption = "01:30"
+                                expanded = false
+                                isPlaceholderVisible = false})
+                        DropdownMenuItem(
+                            text = { Text("2 horas") },
+                            onClick = {
+                                selectedOption = "02:00"
+                                expanded = false
+                                isPlaceholderVisible = false})
+                    }
+                    Box(
+                        modifier = Modifier
+                            .clickable { expanded = true }
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            if (isPlaceholderVisible) {
+                                Text(
+                                    text = "Seleccionar",
+                                    color = Color.Gray,
+                                    textAlign = TextAlign.Center,
+                                    style = TextStyle(fontSize = 16.sp))
+                                Icon(
+                                    imageVector = Icons.Default.KeyboardArrowDown,
+                                    contentDescription = null,
+                                    tint = Color.Gray
+                                )
+                            } else {
+                                Text(
+                                    text = selectedOption,
+                                    textAlign = TextAlign.Center,
+                                    style = TextStyle(fontSize = 16.sp))
+                                Icon(
+                                    imageVector = Icons.Default.KeyboardArrowDown,
+                                    contentDescription = null
+                                )
+                            }
                         }
                     }
                 }
-
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(
+                    text= "Duración:",
+                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontSize = 20.sp),
+                    modifier = Modifier
+                        .padding(end = 15.dp))
+                TextField(
+                    value = duracionPausas,
+                    onValueChange = { newValue ->
+                        val number = newValue.toIntOrNull()
+                        if (number != null && number in 5..60) {
+                            duracionPausas = newValue
+                        }
+                    },
+                    placeholder = { Text("Ej: 5,15,20,...") },
+                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
+                    modifier = Modifier
+                        .border(1.dp, Color.Black, RoundedCornerShape(8.dp))
+                        .height(50.dp)
+                        .width(150.dp))
+                Text(
+                    text= "minutos",
+                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontSize = 20.sp),
+                    modifier = Modifier
+                        .padding(start = 15.dp))
             }
         }
         Row(
@@ -241,13 +305,22 @@ fun CreateTask(navController: NavController? = null){
             horizontalArrangement = Arrangement.Center
 
         ){
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                if (navController != null){
+                    navController.navigate("pantallaPrincipal")
+                }}) {
                 Text(text = "Descartar")
             }
 
             Spacer(modifier = Modifier.width(10.dp))
 
-            Button(onClick = { /*TODO*/ }){
+            Button(onClick = {
+                val taskViewModel = TaskViewModel()
+                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                if (navController != null){
+                    navController.navigate("pantallaPrincipal")
+                }
+            }){
                 Text(text = "Guardar")
             }
         }

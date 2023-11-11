@@ -18,7 +18,7 @@ import edu.unicauca.aplimovil.taskzen.ui.Utils.TitleSection
 
 @Composable
 fun Help(navController: NavController? = null) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceVariant)
@@ -29,21 +29,39 @@ fun Help(navController: NavController? = null) {
                 .height(50.dp)
                 .background(MaterialTheme.colorScheme.primary),
             verticalAlignment = Alignment.CenterVertically
-
         ) {
             IconButton(
                 onClick = {
-                    if (navController != null) {
-                        navController.navigate("pantallaPrincipal")
+                    if(navController != null){
+                        navController.navigate("configuracion")
                     }
-                }) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = null
-                )
+                },
+                modifier = Modifier
+                    .height(50.dp)
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
+                        Text(text = "Help")
+                    }
+                }
             }
-            Text("Help")
         }
+
         LazyColumn {
             item {
                 TitleSection("Preguntas frecuentes")
@@ -68,7 +86,6 @@ fun Help(navController: NavController? = null) {
         }
     }
 }
-
 
 @Composable
 @Preview

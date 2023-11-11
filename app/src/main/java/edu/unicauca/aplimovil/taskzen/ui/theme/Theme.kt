@@ -38,13 +38,13 @@ private val LightColors = lightColorScheme(
     scrim = md_theme_light_scrim,
 )
 
+
 @Composable
 fun AppTheme(
   useDarkTheme: Boolean = isSystemInDarkTheme(),
   content: @Composable() () -> Unit
 ) {
   val colors = LightColors
-
   MaterialTheme(
     colorScheme = colors,
     content = content

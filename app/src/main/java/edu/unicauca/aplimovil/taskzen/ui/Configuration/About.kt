@@ -17,33 +17,51 @@ import edu.unicauca.aplimovil.taskzen.ui.Utils.TitleSection
 
 @Composable
 fun About(navController: NavController? = null) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceVariant)
     ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .background(MaterialTheme.colorScheme.primary),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = {
-                        if (navController != null) {
-                            navController.navigate("configuracion")
-                        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .background(MaterialTheme.colorScheme.primary),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(
+                onClick = {
+                    if(navController != null){
+                        navController.navigate("configuracion")
                     }
+                },
+                modifier = Modifier
+                    .height(50.dp)
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 8.dp)
                     )
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
+                        Text(text = "About Application")
+                    }
                 }
-                Text("About")
             }
+        }
+        Column {
+
             TitleSection("Contacto")
             Text(
                 "Puedes contactarnos en support@taskzen.com para obtener ayuda adicional.",

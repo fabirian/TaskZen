@@ -76,6 +76,7 @@ fun ListTaskScreen(navController: NavController? = null, taskViewModel: TaskView
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
+
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {

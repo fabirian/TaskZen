@@ -58,11 +58,11 @@ fun CreateTask(navController: NavController? = null, dataManager: DataManager){
     val clockStateFin = rememberSheetState()
     ClockDialog(state = clockStateInicio, selection = ClockSelection.HoursMinutes{
             horas, minutos ->
-        horaInicio = "$horas:$minutos"
+        horaInicio = String.format("%02d:%02d", horas, minutos)
     })
     ClockDialog(state = clockStateFin, selection = ClockSelection.HoursMinutes{
             horas, minutos ->
-        horaFin = "$horas:$minutos"
+        horaFin = String.format("%02d:%02d", horas, minutos)
     })
 
     Column(
@@ -316,7 +316,7 @@ fun CreateTask(navController: NavController? = null, dataManager: DataManager){
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                dataManager.addTarea(Tarea(dataManager.getTareas().size+1,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                dataManager.addTarea(Tarea(dataManager.getTareas().size,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                }

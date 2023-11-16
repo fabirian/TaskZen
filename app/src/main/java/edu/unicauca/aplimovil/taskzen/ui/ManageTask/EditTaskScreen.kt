@@ -1,5 +1,6 @@
 package edu.unicauca.aplimovil.taskzen.ui.ManageTask
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -48,8 +49,9 @@ import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTask(navController: NavController? = null, idTask: Int? = null){
-    val task: Tarea? = idTask?.let { DataManager.getTareaById(it) }
+fun EditTask(navController: NavController? = null, idTask: Int? = null, dataManager: DataManager){
+    val task: Tarea? = idTask?.let { dataManager.getTareaById(it) }
+    Log.d("Edit", task?.id.toString())
     var titulo by remember { mutableStateOf(task?.nombre) }
     var duracionPausas by remember { mutableStateOf(task?.duracionPausas) }
     var expanded by remember { mutableStateOf(false) }
@@ -61,11 +63,11 @@ fun EditTask(navController: NavController? = null, idTask: Int? = null){
     val clockStateFin = rememberSheetState()
     ClockDialog(state = clockStateInicio, selection = ClockSelection.HoursMinutes{
             horas, minutos ->
-        horaInicio = "$horas:$minutos"
+        horaInicio = String.format("%02d:%02d", horas, minutos)
     })
     ClockDialog(state = clockStateFin, selection = ClockSelection.HoursMinutes{
             horas, minutos ->
-        horaFin = "$horas:$minutos"
+        horaFin = String.format("%02d:%02d", horas, minutos)
     })
 
     Column(
@@ -341,7 +343,7 @@ fun EditTask(navController: NavController? = null, idTask: Int? = null){
                                 }
                             }
                         }
-                    }?.let { DataManager.updateTarea(it) }
+                    }?.let { dataManager.updateTarea(it) }
                 }
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")

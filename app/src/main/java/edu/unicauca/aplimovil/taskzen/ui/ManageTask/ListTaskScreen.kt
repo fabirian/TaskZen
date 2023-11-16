@@ -1,6 +1,7 @@
 package edu.unicauca.aplimovil.taskzen.ui.ManageTask
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -185,6 +186,7 @@ fun PendingTask(id: Int,horaInicio: String, horaFin: String, nameTask: String, n
     Box (
         modifier = Modifier
             .clickable{
+                Log.d("Edit", id.toString())
                 navController?.navigate("EditTask/${id}")
             }
     ){

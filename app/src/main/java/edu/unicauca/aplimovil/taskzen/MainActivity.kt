@@ -2,6 +2,7 @@ package edu.unicauca.aplimovil.taskzen
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -55,7 +56,6 @@ fun MyApp() {
         Surface {
             val userViewModel = remember { UserViewModel() }
             val dataManager = remember { DataManager }
-            var task: Tarea = Tarea(0,"", "00:00", "00:00", "", "", "")
             NavHost(navController, startDestination = "pantallaPrincipal") {
                 composable("pantallaPrincipal") {
                     ListTaskScreen(navController, dataManager)
@@ -66,7 +66,8 @@ fun MyApp() {
                 composable("EditTask/{taskId}") { backStackEntry ->
                     // Obtén el ID de la tarea de la URL
                     val taskId = backStackEntry.arguments?.getInt("taskId")
-                    EditTask(navController, taskId)
+                    Log.d("Edit", taskId.toString())
+                    EditTask(navController, taskId, dataManager)
                 }
                 composable("configuracion") {
                     ConfiguracionScreen(navController, userViewModel)

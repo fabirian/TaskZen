@@ -1,9 +1,11 @@
 package edu.unicauca.aplimovil.taskzen.ui.ManageTask
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,17 +32,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
+import edu.unicauca.aplimovil.taskzen.ui.DataManager
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.LocalTime
@@ -48,10 +52,10 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ListTaskScreen(navController: NavController? = null, taskViewModel: TaskViewModel) {
+fun ListTaskScreen(navController: NavController? = null, dataManager: DataManager) {
     val horaActual = LocalTime.now()
 
-    val tareaActual = taskViewModel.getTareas().find { task ->
+    val tareaActual = dataManager.getTareas().find { task ->
         task.horaInicio == horaActual.format(DateTimeFormatter.ofPattern("HH:mm"))
     }
 
@@ -137,11 +141,23 @@ fun ListTaskScreen(navController: NavController? = null, taskViewModel: TaskView
 
             Text(text = "Tareas pendientes", modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
 
-            LazyColumn {
-                items(taskViewModel.getTareas()) { item ->
-                    PendingTask(item.id ,item.horaInicio, item.horaFin, item.nombre, navController)
+            if (dataManager.getTareas().isNotEmpty()){
+                LazyColumn {
+                    items(dataManager.getTareas()) { item ->
+                        PendingTask(item.id ,item.horaInicio, item.horaFin, item.nombre, navController)
+                    }
                 }
+            }else {
+                Text(
+                    text = "No hay Tareas Pendientes",
+                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontSize = 20.sp),
+                    modifier = Modifier
+                        .border(1.dp, Color.Black)
+                        .padding(10.dp, 0.dp))
             }
+
         }
 
         IconButton(
@@ -170,6 +186,7 @@ fun PendingTask(id: Int,horaInicio: String, horaFin: String, nameTask: String, n
     Box (
         modifier = Modifier
             .clickable{
+                Log.d("Edit", id.toString())
                 navController?.navigate("EditTask/${id}")
             }
     ){
@@ -192,6 +209,7 @@ fun PendingTask(id: Int,horaInicio: String, horaFin: String, nameTask: String, n
     Spacer(modifier = Modifier.height(8.dp))
 }
 
+@Composable
 fun TiempoTranscurrido(seconds: Long): String {
     val horas = seconds / 3600
     val minutos = (seconds % 3600) / 60

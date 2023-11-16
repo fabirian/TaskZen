@@ -316,7 +316,7 @@ fun CreateTask(navController: NavController? = null, dataManager: DataManager){
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                dataManager.addTarea(Tarea(dataManager.getTareas().last().id+1,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                dataManager.addTarea(Tarea(dataManager.getTareas().size+1,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                }

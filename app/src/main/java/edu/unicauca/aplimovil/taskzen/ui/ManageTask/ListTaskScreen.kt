@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,8 +35,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
 import edu.unicauca.aplimovil.taskzen.ui.DataManager
@@ -135,11 +140,23 @@ fun ListTaskScreen(navController: NavController? = null, dataManager: DataManage
 
             Text(text = "Tareas pendientes", modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
 
-            LazyColumn {
-                items(dataManager.getTareas()) { item ->
-                    PendingTask(item.id ,item.horaInicio, item.horaFin, item.nombre, navController)
+            if (dataManager.getTareas().isNotEmpty()){
+                LazyColumn {
+                    items(dataManager.getTareas()) { item ->
+                        PendingTask(item.id ,item.horaInicio, item.horaFin, item.nombre, navController)
+                    }
                 }
+            }else {
+                Text(
+                    text = "No hay Tareas Pendientes",
+                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontSize = 20.sp),
+                    modifier = Modifier
+                        .border(1.dp, Color.Black)
+                        .padding(10.dp, 0.dp))
             }
+
         }
 
         IconButton(

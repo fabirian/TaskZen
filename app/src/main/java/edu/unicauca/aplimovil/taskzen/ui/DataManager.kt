@@ -3,7 +3,7 @@ package edu.unicauca.aplimovil.taskzen.ui
 import User
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
 
-object DataManager {
+class DataManager {
     var currentUser: User? = null
     var taskUser: MutableList<Tarea> = mutableListOf()
     var taskNoUser: MutableList<Tarea> = mutableListOf()
@@ -15,9 +15,9 @@ object DataManager {
     )
 
     private val sampleTasks = mutableListOf(
-        Tarea(1, "adrianf@unicauca.edu.co", "08:00", "09:00", "Task 1", "15 mins", "08:15"),
-        Tarea(2, "jhonnymr@unicauca.edu.co", "10:00", "11:30", "Task 2", "30 mins", "10:30"),
-        Tarea(3, "afgalindez@unicauca.edu.co", "09:30", "10:45", "Task 3", "20 mins", "09:50")
+        Tarea(0, "adrianf@unicauca.edu.co", "08:00", "09:00", "Task 1", "15 mins", "08:15"),
+        Tarea(0, "jhonnymr@unicauca.edu.co", "10:00", "11:30", "Task 2", "30 mins", "10:30"),
+        Tarea(0, "afgalindez@unicauca.edu.co", "09:30", "10:45", "Task 3", "20 mins", "09:50")
     )
 
     fun login(email: String, password: String): Boolean {
@@ -50,7 +50,6 @@ object DataManager {
 
     fun logout() {
         currentUser = null
-        taskUser = emptyList<Tarea>().toMutableList()
     }
 
     //Tareas
@@ -84,9 +83,7 @@ object DataManager {
             if (currentUser != null){
                 taskUser[tareaIndex] = updatedTarea
             }else{
-                if (currentUser != null){
-                    taskNoUser[tareaIndex] = updatedTarea
-                }
+                taskNoUser[tareaIndex] = updatedTarea
             }
         }
     }

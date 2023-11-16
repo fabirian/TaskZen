@@ -44,18 +44,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-class UserViewModel : ViewModel() {
-    var userEmail by mutableStateOf<String?>(null)
-}
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
     MaterialTheme {
         Surface {
-            val userViewModel = remember { UserViewModel() }
-            val dataManager = remember { DataManager }
+            val dataManager = remember { DataManager() }
             NavHost(navController, startDestination = "pantallaPrincipal") {
                 composable("pantallaPrincipal") {
                     ListTaskScreen(navController, dataManager)
@@ -70,10 +65,13 @@ fun MyApp() {
                     EditTask(navController, taskId, dataManager)
                 }
                 composable("configuracion") {
-                    ConfiguracionScreen(navController, userViewModel)
+                    ConfiguracionScreen(navController, dataManager)
                 }
                 composable("login") {
-                    LoginScreen(navController)
+                    LoginScreen(navController, dataManager)
+                }
+                composable("registro") {
+                    RegisterScreen(navController, dataManager)
                 }
                 composable("help") {
                     Help(navController)
@@ -86,9 +84,6 @@ fun MyApp() {
                 }
                 composable("feedback") {
                     Feedback(navController)
-                }
-                composable("registro") {
-                    RegisterScreen(navController)
                 }
             }
 

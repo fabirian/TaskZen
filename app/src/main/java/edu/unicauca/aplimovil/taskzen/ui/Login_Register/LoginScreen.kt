@@ -35,7 +35,7 @@ import edu.unicauca.aplimovil.taskzen.ui.DataManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController? = null) {
+fun LoginScreen(navController: NavController? = null, dataManager: DataManager) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var showErrorIncorrect by remember { mutableStateOf(false) }
@@ -136,7 +136,7 @@ fun LoginScreen(navController: NavController? = null) {
                     showErrorIncomplete = true
                 } else {
                     // Intentar iniciar sesión solo si ambos campos están completos
-                    if (DataManager.login(email, password)) {
+                    if (dataManager.login(email, password)) {
                         navController?.navigate("configuracion")
                     } else {
                         // Mostrar el mensaje de error de datos incorrectos
@@ -173,12 +173,4 @@ fun LoginScreen(navController: NavController? = null) {
             )
         }
     }
-}
-
-
-
-@Composable
-@Preview
-fun LoginScreenPreview() {
-    LoginScreen()
 }

@@ -34,7 +34,7 @@ import edu.unicauca.aplimovil.taskzen.ui.DataManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(navController: NavController? = null) {
+fun RegisterScreen(navController: NavController? = null, dataManager: DataManager) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -193,7 +193,7 @@ fun RegisterScreen(navController: NavController? = null) {
                     showErrorPasswordMismatch = false
 
                     // Lógica para registrar al usuario
-                    if (DataManager.registerUser(name, email, password)) {
+                    if (dataManager.registerUser(name, email, password)) {
                         // Registro exitoso
                         showSuccessMessage = true
                     } else {
@@ -228,11 +228,4 @@ fun RegisterScreen(navController: NavController? = null) {
             )
         }
     }
-    }
-
-@Composable
-@Preview
-fun RegisterScreenPreview() {
-    RegisterScreen()
 }
-

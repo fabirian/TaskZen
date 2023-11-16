@@ -14,11 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import edu.unicauca.aplimovil.taskzen.UserViewModel
 import edu.unicauca.aplimovil.taskzen.ui.DataManager
 
 @Composable
-fun ConfiguracionScreen(navController: NavController? = null, userViewModel: UserViewModel) {
+fun ConfiguracionScreen(navController: NavController? = null, dataManager: DataManager) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,7 +68,7 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
                 .background(MaterialTheme.colorScheme.onPrimary)
         ) {
             // Botón de Login o Nombre de Usuario
-            if (DataManager.currentUser == null) {
+            if (dataManager.currentUser == null) {
                 Text(
                     "Login",
                     modifier = Modifier
@@ -83,7 +82,7 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
                 )
             } else {
                 Text(
-                    "Welcome, ${DataManager.currentUser?.name}!",
+                    "Welcome, ${dataManager.currentUser?.name}!",
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -100,11 +99,11 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
             Spacer(modifier = Modifier.weight(1f))
 
             // Botón de Sign Out
-            if (DataManager.currentUser != null) {
+            if (dataManager.currentUser != null) {
                 IconButton(
                     onClick = {
                         // Lógica para cerrar sesión (puedes limpiar el edu.unicauca.aplimovil.taskzen.ui.DataManager aquí)
-                        DataManager.logout()
+                        dataManager.logout()
                         // Navegar a la pantalla principal después de cerrar sesión
                         navController?.navigate("pantallaPrincipal")
                     },

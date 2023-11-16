@@ -1,5 +1,7 @@
 package edu.unicauca.aplimovil.taskzen.ui.ManageTask
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -43,7 +45,9 @@ import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockSelection
 import edu.unicauca.aplimovil.taskzen.ui.DataManager
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
+import java.time.LocalTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateTask(navController: NavController? = null, dataManager: DataManager){
@@ -52,8 +56,8 @@ fun CreateTask(navController: NavController? = null, dataManager: DataManager){
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf("") }
     var isPlaceholderVisible by remember { mutableStateOf(true) }
-    var horaInicio by remember { mutableStateOf("00:00") }
-    var horaFin by remember { mutableStateOf("00:00") }
+    var horaInicio by remember { mutableStateOf(String.format("%02d:%02d", LocalTime.now().hour, LocalTime.now().minute)) }
+    var horaFin by remember { mutableStateOf(String.format("%02d:%02d", LocalTime.now().hour+1, LocalTime.now().minute)) }
     val clockStateInicio = rememberSheetState()
     val clockStateFin = rememberSheetState()
     ClockDialog(state = clockStateInicio, selection = ClockSelection.HoursMinutes{
@@ -316,7 +320,10 @@ fun CreateTask(navController: NavController? = null, dataManager: DataManager){
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                dataManager.addTarea(Tarea(dataManager.getTareas().size,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                dataManager.currentUser?.let {
+                    Tarea(dataManager.getTareas().size,
+                        it.email,horaInicio,horaFin,titulo,duracionPausas,selectedOption)
+                }?.let { dataManager.addTarea(it) }
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                }

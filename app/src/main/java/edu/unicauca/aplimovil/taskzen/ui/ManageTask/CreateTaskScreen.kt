@@ -320,10 +320,9 @@ fun CreateTask(navController: NavController? = null, dataManager: DataManager){
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                dataManager.currentUser?.let {
-                    Tarea(dataManager.getTareas().size,
-                        it.email,horaInicio,horaFin,titulo,duracionPausas,selectedOption)
-                }?.let { dataManager.addTarea(it) }
+                val email = dataManager.currentUser?.email ?: ""
+                val tarea = Tarea(dataManager.getTareas().size, email, horaInicio, horaFin, titulo, duracionPausas, selectedOption)
+                dataManager.addTarea(tarea)
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                }

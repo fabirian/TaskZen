@@ -1,8 +1,12 @@
-import edu.unicauca.aplimovil.taskzen.ui.ManageTask.Tarea
+package edu.unicauca.aplimovil.taskzen.ui
+
+import User
+import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
 
 object DataManager {
     var currentUser: User? = null
-    var tasks: List<Tarea> = emptyList()
+    var tareas: MutableList<Tarea> = mutableListOf()
+    var tareasAux: MutableList<Tarea> = mutableListOf()
     // Lista ficticia de usuarios (agrega más según sea necesario)
     private val users = mutableListOf(
         User("adrianf@unicauca.edu.co", "1234", "Adrian"),
@@ -14,15 +18,15 @@ object DataManager {
         Tarea(1, "adrianf@unicauca.edu.co", "08:00", "09:00", "Task 1", "15 mins", "08:15"),
         Tarea(2, "adrianf@unicauca.edu.co", "10:00", "11:30", "Task 2", "30 mins", "10:30"),
         Tarea(3, "jhonnymr@unicauca.edu.co", "09:30", "10:45", "Task 3", "20 mins", "09:50")
-
     )
 
     fun login(email: String, password: String): Boolean {
         // Simulación de lógica de inicio de sesión
         val user = users.find { it.email == email && it.password == password }
+        tareasAux = tareas
         if (user != null) {
             currentUser = user
-            tasks = sampleTasks.filter { it.emailUser == user.email }
+            tareas = sampleTasks.filter { it.emailUser == user.email }.toMutableList()
             return true
         }
         return false
@@ -47,8 +51,34 @@ object DataManager {
 
     fun logout() {
         currentUser = null
-        tasks = emptyList()
+        tareas = tareasAux
     }
 
+    //Tareas
+    fun addTarea(tarea: Tarea) {
+        tareas.add(tarea)
+    }
+
+    fun getTareas(): List<Tarea> {
+        return tareas
+    }
+
+    fun getTareaById(id: Int): Tarea? {
+        return tareas.find { it.id == id }
+    }
+
+    fun updateTarea(updatedTarea: Tarea) {
+        val tareaIndex = tareas.indexOfFirst { it.id == updatedTarea.id }
+        if (tareaIndex != -1) {
+            tareas[tareaIndex] = updatedTarea
+        }
+    }
+
+    fun deleteTarea(id: Int) {
+        val tareaIndex = tareas.indexOfFirst { it.id == id }
+        if (tareaIndex != -1) {
+            tareas.removeAt(tareaIndex)
+        }
+    }
 
 }

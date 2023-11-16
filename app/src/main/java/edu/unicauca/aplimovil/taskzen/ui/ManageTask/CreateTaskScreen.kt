@@ -41,10 +41,12 @@ import androidx.compose.ui.unit.sp
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockSelection
+import edu.unicauca.aplimovil.taskzen.ui.DataManager
+import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTask(navController: NavController? = null, taskViewModel: TaskViewModel){
+fun CreateTask(navController: NavController? = null){
     var titulo by remember { mutableStateOf("") }
     var duracionPausas by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
@@ -314,7 +316,7 @@ fun CreateTask(navController: NavController? = null, taskViewModel: TaskViewMode
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                taskViewModel.addTarea(Tarea(taskViewModel.getTareas().last().id+1,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                DataManager.addTarea(Tarea(DataManager.getTareas().last().id+1,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                }
@@ -323,9 +325,4 @@ fun CreateTask(navController: NavController? = null, taskViewModel: TaskViewMode
             }
         }
     }
-}
-
-@Composable
-fun EditTask(navController: NavController? = null){
-
 }

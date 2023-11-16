@@ -1,4 +1,4 @@
-package edu.unicauca.aplimovil.taskzen.ui.ManageTask
+package edu.unicauca.aplimovil.taskzen.ui.Login_Register
 
 data class Tarea(
     val id: Int,

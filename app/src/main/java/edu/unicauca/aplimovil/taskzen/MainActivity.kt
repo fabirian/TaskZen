@@ -27,8 +27,7 @@ import edu.unicauca.aplimovil.taskzen.ui.Login_Register.RegisterScreen
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.CreateTask
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.EditTask
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.ListTaskScreen
-import edu.unicauca.aplimovil.taskzen.ui.ManageTask.Tarea
-import edu.unicauca.aplimovil.taskzen.ui.ManageTask.TaskViewModel
+import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
 
 
 class MainActivity : ComponentActivity() {
@@ -54,30 +53,18 @@ fun MyApp() {
     MaterialTheme {
         Surface {
             val userViewModel = remember { UserViewModel() }
-            val taskViewModel = TaskViewModel()
-            val task: Tarea = Tarea(0,"", "00:00", "00:00", "", "", "")
-            taskViewModel.addTarea(Tarea(1,"","00:00", "01:00", "Tarea 1", "10", "00:00"))
-            taskViewModel.addTarea(Tarea(2,"", "01:00", "02:00", "Tarea 2", "5", "01:00"))
-            taskViewModel.addTarea(Tarea(3,"", "02:00", "03:00", "Tarea 3", "5", "02:00"))
+            var task: Tarea = Tarea(0,"", "00:00", "00:00", "", "", "")
             NavHost(navController, startDestination = "pantallaPrincipal") {
                 composable("pantallaPrincipal") {
-                    ListTaskScreen(navController, taskViewModel)
+                    ListTaskScreen(navController)
                 }
                 composable("CreateTask"){
-                    CreateTask(navController, taskViewModel)
+                    CreateTask(navController)
                 }
                 composable("EditTask/{taskId}") { backStackEntry ->
                     // Obtén el ID de la tarea de la URL
                     val taskId = backStackEntry.arguments?.getInt("taskId")
-                    // Obtén la tarea correspondiente utilizando el ID
-                    val tarea = taskId?.let { taskViewModel.getTareaById(it) }
-
-                    // Llama a la pantalla EditTask y pasa la tarea
-                    if (tarea != null) {
-                        EditTask(navController, taskViewModel, tarea)
-                    }else{
-                        EditTask(navController, taskViewModel, task)
-                    }
+                    EditTask(navController, taskId)
                 }
                 composable("configuracion") {
                     ConfiguracionScreen(navController, userViewModel)

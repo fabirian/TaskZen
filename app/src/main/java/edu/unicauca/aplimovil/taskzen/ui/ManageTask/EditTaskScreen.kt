@@ -43,17 +43,20 @@ import androidx.navigation.NavController
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockSelection
+import edu.unicauca.aplimovil.taskzen.ui.DataManager
+import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTask(navController: NavController? = null, taskViewModel: TaskViewModel,task: Tarea){
-    var titulo by remember { mutableStateOf(task.nombre) }
-    var duracionPausas by remember { mutableStateOf(task.duracionPausas) }
+fun EditTask(navController: NavController? = null, idTask: Int? = null){
+    val task: Tarea? = idTask?.let { DataManager.getTareaById(it) }
+    var titulo by remember { mutableStateOf(task?.nombre) }
+    var duracionPausas by remember { mutableStateOf(task?.duracionPausas) }
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf("") }
     var isPlaceholderVisible by remember { mutableStateOf(true) }
-    var horaInicio by remember { mutableStateOf(task.horaInicio) }
-    var horaFin by remember { mutableStateOf(task.horaFin) }
+    var horaInicio by remember { mutableStateOf(task?.horaInicio) }
+    var horaFin by remember { mutableStateOf(task?.horaFin) }
     val clockStateInicio = rememberSheetState()
     val clockStateFin = rememberSheetState()
     ClockDialog(state = clockStateInicio, selection = ClockSelection.HoursMinutes{
@@ -113,16 +116,18 @@ fun EditTask(navController: NavController? = null, taskViewModel: TaskViewModel,
                 .fillMaxWidth()
                 .padding(16.dp)
         ){
-            TextField(
-                value = titulo,
-                onValueChange = { titulo = it },
-                placeholder = { Text("Titulo Tarea") },
-                colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, Color.Black, RoundedCornerShape(8.dp))
-                    .height(50.dp)
-            )
+            titulo?.let {
+                TextField(
+                    value = it,
+                    onValueChange = { titulo = it },
+                    placeholder = { Text("Titulo Tarea") },
+                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, Color.Black, RoundedCornerShape(8.dp))
+                        .height(50.dp)
+                )
+            }
         }
         Column(
             modifier = Modifier
@@ -149,10 +154,12 @@ fun EditTask(navController: NavController? = null, taskViewModel: TaskViewModel,
                         modifier = Modifier
                             .height(60.dp)
                             .width(80.dp)) {
-                        Text(
-                            text = horaInicio,
-                            style = TextStyle(fontSize = 30.sp)
-                        )
+                        horaInicio?.let {
+                            Text(
+                                text = it,
+                                style = TextStyle(fontSize = 30.sp)
+                            )
+                        }
                     }
 
                 }
@@ -173,10 +180,12 @@ fun EditTask(navController: NavController? = null, taskViewModel: TaskViewModel,
                         modifier = Modifier
                             .height(60.dp)
                             .width(80.dp)) {
-                        Text(
-                            text = horaFin,
-                            style = TextStyle(fontSize = 30.sp)
-                        )
+                        horaFin?.let {
+                            Text(
+                                text = it,
+                                style = TextStyle(fontSize = 30.sp)
+                            )
+                        }
                     }
                 }
             }
@@ -280,20 +289,22 @@ fun EditTask(navController: NavController? = null, taskViewModel: TaskViewModel,
                         fontSize = 20.sp),
                     modifier = Modifier
                         .padding(end = 15.dp))
-                TextField(
-                    value = duracionPausas,
-                    onValueChange = { newValue ->
-                        val number = newValue.toIntOrNull()
-                        if (number != null && number in 5..60) {
-                            duracionPausas = newValue
-                        }
-                    },
-                    placeholder = { Text("Ej: 5,15,20,...") },
-                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                    modifier = Modifier
-                        .border(1.dp, Color.Black, RoundedCornerShape(8.dp))
-                        .height(50.dp)
-                        .width(150.dp))
+                duracionPausas?.let {
+                    TextField(
+                        value = it,
+                        onValueChange = { newValue ->
+                            val number = newValue.toIntOrNull()
+                            if (number != null && number in 5..60) {
+                                duracionPausas = newValue
+                            }
+                        },
+                        placeholder = { Text("Ej: 5,15,20,...") },
+                        colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
+                        modifier = Modifier
+                            .border(1.dp, Color.Black, RoundedCornerShape(8.dp))
+                            .height(50.dp)
+                            .width(150.dp))
+                }
                 Text(
                     text= "minutos",
                     textAlign = TextAlign.Center,
@@ -320,7 +331,18 @@ fun EditTask(navController: NavController? = null, taskViewModel: TaskViewModel,
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                taskViewModel.updateTarea(Tarea(task.id,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                if (task != null) {
+                    horaInicio?.let {
+                        horaFin?.let { it1 ->
+                            titulo?.let { it2 ->
+                                duracionPausas?.let { it3 ->
+                                    Tarea(task.id,"",
+                                        it, it1, it2, it3,selectedOption)
+                                }
+                            }
+                        }
+                    }?.let { DataManager.updateTarea(it) }
+                }
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                 }

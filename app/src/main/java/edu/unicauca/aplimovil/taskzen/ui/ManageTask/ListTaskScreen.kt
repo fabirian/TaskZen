@@ -30,17 +30,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.R
+import edu.unicauca.aplimovil.taskzen.ui.DataManager
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.LocalTime
@@ -48,10 +46,10 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ListTaskScreen(navController: NavController? = null, taskViewModel: TaskViewModel) {
+fun ListTaskScreen(navController: NavController? = null) {
     val horaActual = LocalTime.now()
 
-    val tareaActual = taskViewModel.getTareas().find { task ->
+    val tareaActual = DataManager.getTareas().find { task ->
         task.horaInicio == horaActual.format(DateTimeFormatter.ofPattern("HH:mm"))
     }
 
@@ -138,7 +136,7 @@ fun ListTaskScreen(navController: NavController? = null, taskViewModel: TaskView
             Text(text = "Tareas pendientes", modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
 
             LazyColumn {
-                items(taskViewModel.getTareas()) { item ->
+                items(DataManager.getTareas()) { item ->
                     PendingTask(item.id ,item.horaInicio, item.horaFin, item.nombre, navController)
                 }
             }
@@ -192,6 +190,7 @@ fun PendingTask(id: Int,horaInicio: String, horaFin: String, nameTask: String, n
     Spacer(modifier = Modifier.height(8.dp))
 }
 
+@Composable
 fun TiempoTranscurrido(seconds: Long): String {
     val horas = seconds / 3600
     val minutos = (seconds % 3600) / 60

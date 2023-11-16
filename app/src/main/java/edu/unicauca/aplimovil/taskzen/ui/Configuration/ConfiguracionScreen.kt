@@ -12,12 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import edu.unicauca.aplimovil.taskzen.UserViewModel
+import edu.unicauca.aplimovil.taskzen.ui.DataManager
 
 @Composable
 fun ConfiguracionScreen(navController: NavController? = null, userViewModel: UserViewModel) {
@@ -105,7 +103,7 @@ fun ConfiguracionScreen(navController: NavController? = null, userViewModel: Use
             if (DataManager.currentUser != null) {
                 IconButton(
                     onClick = {
-                        // Lógica para cerrar sesión (puedes limpiar el DataManager aquí)
+                        // Lógica para cerrar sesión (puedes limpiar el edu.unicauca.aplimovil.taskzen.ui.DataManager aquí)
                         DataManager.logout()
                         // Navegar a la pantalla principal después de cerrar sesión
                         navController?.navigate("pantallaPrincipal")

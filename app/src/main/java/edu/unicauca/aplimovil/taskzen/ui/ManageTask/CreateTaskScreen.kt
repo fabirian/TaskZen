@@ -46,7 +46,7 @@ import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTask(navController: NavController? = null){
+fun CreateTask(navController: NavController? = null, dataManager: DataManager){
     var titulo by remember { mutableStateOf("") }
     var duracionPausas by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
@@ -316,7 +316,7 @@ fun CreateTask(navController: NavController? = null){
             Spacer(modifier = Modifier.width(10.dp))
 
             Button(onClick = {
-                DataManager.addTarea(Tarea(DataManager.getTareas().last().id+1,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
+                dataManager.addTarea(Tarea(dataManager.getTareas().last().id+1,"",horaInicio,horaFin,titulo,duracionPausas,selectedOption))
                 if (navController != null){
                     navController.navigate("pantallaPrincipal")
                }

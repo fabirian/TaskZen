@@ -22,6 +22,7 @@ import edu.unicauca.aplimovil.taskzen.ui.Configuration.ConfiguracionScreen
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.Feedback
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.Help
 import edu.unicauca.aplimovil.taskzen.ui.Configuration.Support
+import edu.unicauca.aplimovil.taskzen.ui.DataManager
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.LoginScreen
 import edu.unicauca.aplimovil.taskzen.ui.Login_Register.RegisterScreen
 import edu.unicauca.aplimovil.taskzen.ui.ManageTask.CreateTask
@@ -53,13 +54,14 @@ fun MyApp() {
     MaterialTheme {
         Surface {
             val userViewModel = remember { UserViewModel() }
+            val dataManager = remember { DataManager }
             var task: Tarea = Tarea(0,"", "00:00", "00:00", "", "", "")
             NavHost(navController, startDestination = "pantallaPrincipal") {
                 composable("pantallaPrincipal") {
-                    ListTaskScreen(navController)
+                    ListTaskScreen(navController, dataManager)
                 }
                 composable("CreateTask"){
-                    CreateTask(navController)
+                    CreateTask(navController, dataManager)
                 }
                 composable("EditTask/{taskId}") { backStackEntry ->
                     // Obtén el ID de la tarea de la URL

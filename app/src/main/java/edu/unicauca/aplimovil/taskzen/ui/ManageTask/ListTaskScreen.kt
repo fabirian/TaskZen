@@ -46,10 +46,10 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ListTaskScreen(navController: NavController? = null) {
+fun ListTaskScreen(navController: NavController? = null, dataManager: DataManager) {
     val horaActual = LocalTime.now()
 
-    val tareaActual = DataManager.getTareas().find { task ->
+    val tareaActual = dataManager.getTareas().find { task ->
         task.horaInicio == horaActual.format(DateTimeFormatter.ofPattern("HH:mm"))
     }
 
@@ -136,7 +136,7 @@ fun ListTaskScreen(navController: NavController? = null) {
             Text(text = "Tareas pendientes", modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
 
             LazyColumn {
-                items(DataManager.getTareas()) { item ->
+                items(dataManager.getTareas()) { item ->
                     PendingTask(item.id ,item.horaInicio, item.horaFin, item.nombre, navController)
                 }
             }

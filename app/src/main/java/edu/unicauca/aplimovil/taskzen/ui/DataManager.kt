@@ -5,8 +5,8 @@ import edu.unicauca.aplimovil.taskzen.ui.Login_Register.Tarea
 
 object DataManager {
     var currentUser: User? = null
-    var tareas: MutableList<Tarea> = mutableListOf()
-    var tareasAux: MutableList<Tarea> = mutableListOf()
+    var task: MutableList<Tarea> = mutableListOf()
+    var taskAux: MutableList<Tarea> = mutableListOf()
     // Lista ficticia de usuarios (agrega más según sea necesario)
     private val users = mutableListOf(
         User("adrianf@unicauca.edu.co", "1234", "Adrian"),
@@ -23,10 +23,10 @@ object DataManager {
     fun login(email: String, password: String): Boolean {
         // Simulación de lógica de inicio de sesión
         val user = users.find { it.email == email && it.password == password }
-        tareasAux = tareas
+        taskAux = task
         if (user != null) {
             currentUser = user
-            tareas = sampleTasks.filter { it.emailUser == user.email }.toMutableList()
+            task = sampleTasks.filter { it.emailUser == user.email }.toMutableList()
             return true
         }
         return false
@@ -51,33 +51,33 @@ object DataManager {
 
     fun logout() {
         currentUser = null
-        tareas = tareasAux
+        task = taskAux
     }
 
     //Tareas
     fun addTarea(tarea: Tarea) {
-        tareas.add(tarea)
+        task.add(tarea)
     }
 
     fun getTareas(): List<Tarea> {
-        return tareas
+        return task
     }
 
     fun getTareaById(id: Int): Tarea? {
-        return tareas.find { it.id == id }
+        return task.find { it.id == id }
     }
 
     fun updateTarea(updatedTarea: Tarea) {
-        val tareaIndex = tareas.indexOfFirst { it.id == updatedTarea.id }
+        val tareaIndex = task.indexOfFirst { it.id == updatedTarea.id }
         if (tareaIndex != -1) {
-            tareas[tareaIndex] = updatedTarea
+            task[tareaIndex] = updatedTarea
         }
     }
 
     fun deleteTarea(id: Int) {
-        val tareaIndex = tareas.indexOfFirst { it.id == id }
+        val tareaIndex = task.indexOfFirst { it.id == id }
         if (tareaIndex != -1) {
-            tareas.removeAt(tareaIndex)
+            task.removeAt(tareaIndex)
         }
     }
 
